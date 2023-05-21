@@ -2,4 +2,9 @@
     <string name="app_name">PAM_ListaTODO</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_settings">Ustawienia</string>
+    <string name="search">Filter tasks</string>
+    <string name="task_title">Task Title</string>
+    <string name="EDIT">EDIT</string>
+    <string name="back">BACK</string>
+    <string name="ADD">ADD</string>
 </resources>

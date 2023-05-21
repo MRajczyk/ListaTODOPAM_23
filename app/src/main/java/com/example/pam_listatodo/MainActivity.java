@@ -34,3 +34,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
+//ODPALANIE JAKIEGOKOLWIEK PLICZKU!
+//
+//try {
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setDataAndType(Uri.fromFile(file), fileMimeType);
+//        startActivity(intent);
+//        } catch (ActivityNotFoundException e) {
+//        // no Activity to handle this kind of files
+//        }
