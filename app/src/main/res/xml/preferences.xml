@@ -23,18 +23,17 @@
         app:title="Filters">
 
         <androidx.preference.SwitchPreferenceCompat
-            app:key="completedTask"
+            app:key="showCompletedTasks"
             app:defaultValue="true"
             app:title="Show finished tasks on the list"/>
 
         <androidx.preference.ListPreference
             app:entries="@array/categoryValues"
             app:entryValues="@array/categoryValues"
-            app:key="taskCategories"
+            app:key="categoryFilter"
             app:title="Show category"
             app:defaultValue="ALL"
             app:useSimpleSummaryProvider="true" />
 
     </androidx.preference.PreferenceCategory>
-
 </PreferenceScreen>
