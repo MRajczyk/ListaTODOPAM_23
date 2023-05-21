@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pam_listatodo.Fragments.SettingsFragment;
+import com.example.pam_listatodo.fragments.SettingsFragment;
 
 import java.util.Objects;
 

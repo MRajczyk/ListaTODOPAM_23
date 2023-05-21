@@ -1,4 +1,4 @@
-package com.example.pam_listatodo.Fragments;
+package com.example.pam_listatodo.fragments;
 
 import android.os.Bundle;
 
