@@ -5,20 +5,20 @@ public class Task {
     private String taskTitle;
     private String taskDescription;
     private Long taskCreationTime;
-    private Long taskDueDate;
+    private Long taskDueTime;
     private Status taskStatus;
-    private Boolean enabledNotifications;
+    private Boolean notificationsEnabled;
     private Category taskCategory;
     private String attachmentURI;
 
-    public Task(Integer id, String taskTitle, String taskDescription, Long taskCreationTime, Long taskDueDate, Status taskStatus, Boolean enabledNotifications, Category taskCategory, String attachmentURI) {
+    public Task(Integer id, String taskTitle, String taskDescription, Long taskCreationTime, Long taskDueTime, Status taskStatus, Boolean notificationsEnabled, Category taskCategory, String attachmentURI) {
         this.id = id;
         this.taskTitle = taskTitle;
         this.taskDescription = taskDescription;
         this.taskCreationTime = taskCreationTime;
-        this.taskDueDate = taskDueDate;
+        this.taskDueTime = taskDueTime;
         this.taskStatus = taskStatus;
-        this.enabledNotifications = enabledNotifications;
+        this.notificationsEnabled = notificationsEnabled;
         this.taskCategory = taskCategory;
         this.attachmentURI = attachmentURI;
     }
@@ -55,12 +55,12 @@ public class Task {
         this.taskCreationTime = taskCreationTime;
     }
 
-    public Long getTaskDueDate() {
-        return taskDueDate;
+    public Long getTaskDueTime() {
+        return taskDueTime;
     }
 
-    public void setTaskDueDate(Long taskDueDate) {
-        this.taskDueDate = taskDueDate;
+    public void setTaskDueTime(Long taskDueTime) {
+        this.taskDueTime = taskDueTime;
     }
 
     public Status getTaskStatus() {
@@ -71,12 +71,12 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-    public Boolean getEnabledNotifications() {
-        return enabledNotifications;
+    public Boolean getNotificationsEnabled() {
+        return notificationsEnabled;
     }
 
-    public void setEnabledNotifications(Boolean enabledNotifications) {
-        this.enabledNotifications = enabledNotifications;
+    public void setNotificationsEnabled(Boolean notificationsEnabled) {
+        this.notificationsEnabled = notificationsEnabled;
     }
 
     public Category getTaskCategory() {
