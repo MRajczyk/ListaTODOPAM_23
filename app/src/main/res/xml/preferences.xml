@@ -1,4 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <androidx.preference.PreferenceCategory
+        app:key="notifications_category"
+        app:title="Notifications">
+
+        <androidx.preference.SwitchPreferenceCompat
+            app:key="notifications"
+            app:title="Enable notifications"/>
+
+        <androidx.preference.ListPreference
+            app:entries="@array/minuteValues"
+            app:entryValues="@array/minuteValues"
+            app:key="minutesToNotification"
+            app:title="Minutes before notification is sent"
+            app:defaultValue="0"
+            app:useSimpleSummaryProvider="true" />
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        app:key="filter_category"
+        app:title="Filters">
+
+        <androidx.preference.SwitchPreferenceCompat
+            app:key="completedTask"
+            app:defaultValue="true"
+            app:title="Show finished tasks on the list"/>
+
+        <androidx.preference.ListPreference
+            app:entries="@array/categoryValues"
+            app:entryValues="@array/categoryValues"
+            app:key="taskCategories"
+            app:title="Show category"
+            app:defaultValue="ALL"
+            app:useSimpleSummaryProvider="true" />
+
+    </androidx.preference.PreferenceCategory>
+
 </PreferenceScreen>

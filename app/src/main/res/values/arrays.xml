@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categoryValues">
+        <item>ALL</item>
+        <item>CHORES</item>
+        <item>UNIVERSITY</item>
+        <item>JOB</item>
+        <item>SPOUSE</item>
+        <item>OTHER</item>
+    </string-array>
+    <string-array name="statusValues">
+        <item>PENDING</item>
+        <item>COMPLETE</item>
+    </string-array>
+    <string-array name="notificationValues">
+        <item>ON</item>
+        <item>OFF</item>
+    </string-array>
+    <string-array name="minuteValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+</resources>
