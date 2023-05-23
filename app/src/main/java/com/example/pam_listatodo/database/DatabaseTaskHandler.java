@@ -97,7 +97,7 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Task contact = new Task(
+                Task task = new Task(
                         Integer.valueOf(cursor.getString(0))
                         , cursor.getString(1)
                         , cursor.getString(2)
@@ -108,7 +108,7 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
                         , Category.valueOf(cursor.getString(7))
                         , cursor.getString(8)
                 );
-                contactList.add(contact);
+                contactList.add(task);
             } while (cursor.moveToNext());
         }
 
@@ -132,5 +132,12 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
 
         return db.update(TABLE_NAME, values, ID + " = ?",
                 new String[]{String.valueOf(task.getId())});
+    }
+
+    public void deleteTask(Task task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, ID + " = ?",
+                new String[]{String.valueOf(task.getId())});
+        db.close();
     }
 }
