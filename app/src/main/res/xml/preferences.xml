@@ -32,7 +32,7 @@
             app:entryValues="@array/categoryValues"
             app:key="categoryFilter"
             app:title="Show category"
-            app:defaultValue="ALL"
+            app:defaultValue="NONE"
             app:useSimpleSummaryProvider="true" />
 
     </androidx.preference.PreferenceCategory>
