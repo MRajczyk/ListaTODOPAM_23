@@ -1,6 +1,8 @@
 package com.example.pam_listatodo.models;
 
-public class Task {
+import java.io.Serializable;
+
+public class Task implements Serializable {
     private Integer id;
     private String taskTitle;
     private String taskDescription;
@@ -21,6 +23,30 @@ public class Task {
         this.notificationsEnabled = notificationsEnabled;
         this.taskCategory = taskCategory;
         this.attachmentURI = attachmentURI;
+    }
+
+    public Task(String taskTitle, String taskDescription, Long taskCreationTime, Long taskDueTime, Status taskStatus, Boolean notificationsEnabled, Category taskCategory, String attachmentURI) {
+        this.taskTitle = taskTitle;
+        this.taskDescription = taskDescription;
+        this.taskCreationTime = taskCreationTime;
+        this.taskDueTime = taskDueTime;
+        this.taskStatus = taskStatus;
+        this.notificationsEnabled = notificationsEnabled;
+        this.taskCategory = taskCategory;
+        this.attachmentURI = attachmentURI;
+    }
+
+    //todo: look for cloning?
+    public Task(Task task) {
+        this.id = task.id;
+        this.taskTitle = task.taskTitle;
+        this.taskDescription = task.taskDescription;
+        this.taskCreationTime = task.taskCreationTime;
+        this.taskDueTime = task.taskDueTime;
+        this.taskStatus = task.taskStatus;
+        this.notificationsEnabled = task.notificationsEnabled;
+        this.taskCategory = task.taskCategory;
+        this.attachmentURI = task.attachmentURI;
     }
 
     public Integer getId() {
