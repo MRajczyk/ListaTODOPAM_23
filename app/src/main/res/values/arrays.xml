@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="categoryValues">
-        <item>ALL</item>
+        <item>NONE</item>
         <item>CHORES</item>
         <item>UNIVERSITY</item>
         <item>JOB</item>
-        <item>SPOUSE</item>
         <item>OTHER</item>
     </string-array>
     <string-array name="statusValues">
