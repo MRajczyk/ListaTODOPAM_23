@@ -257,8 +257,9 @@ public class EditTaskFragment extends Fragment {
             this.taskData.setTaskDescription(this.taskDescription.getText().toString());
             this.taskData.setTaskAttachmentURI(this.taskAttachment.getText().toString());
             System.out.println("Zmieniono: " + ((MainActivity) requireActivity()).getDb().updateTask(this.taskData));
+
             if (taskNotifications.getSelectedItem().toString().equals("ON")) {
-                //todo put on notification
+                ((MainActivity) requireActivity()).setAlarm(taskData);
             }
             switchFragment();
         }

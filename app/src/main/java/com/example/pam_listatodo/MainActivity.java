@@ -1,10 +1,19 @@
 package com.example.pam_listatodo;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,7 +21,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.pam_listatodo.broadcast.NotificationReceiver;
 import com.example.pam_listatodo.database.DatabaseTaskHandler;
 import com.example.pam_listatodo.fragments.NewTaskFragment;
 import com.example.pam_listatodo.fragments.RecyclerViewFragment;
@@ -29,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String filterCategory;
     private Boolean showDoneTasks;
+    private int minutesBeforeDueTimeAlarm;
+    private boolean sendNotifications;
     private DatabaseTaskHandler db;
     private FloatingActionButton floatingButton;
 
@@ -40,12 +53,24 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
         setContentView(R.layout.activity_main);
+        if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{POST_NOTIFICATIONS}, 1);
+        }
+
+        //create notification channel
+        NotificationManager myNotificationManager;
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("TODO_NOTIFICATIONS", "todo_notif", importance);
+        myNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        myNotificationManager.createNotificationChannel(channel);
 
         db = new DatabaseTaskHandler(this);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        showDoneTasks = prefs.getBoolean("showCompletedTasks",true);
-        filterCategory = prefs.getString("categoryFilter","NONE");
+        this.showDoneTasks = prefs.getBoolean("showCompletedTasks",true);
+        this.filterCategory = prefs.getString("categoryFilter","NONE");
+        this.minutesBeforeDueTimeAlarm = Integer.parseInt(prefs.getString("minutesToNotification", "0"));
+        this.sendNotifications = prefs.getBoolean("notifications", true);
 
         getAllTasks();
         floatingButton = findViewById(R.id.floatingActionButton);
@@ -60,6 +85,20 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.mainActivity, new RecyclerViewFragment())
                 .setReorderingAllowed(true)
                 .commit();
+    }
+
+    public void setAlarm(Task task) {
+        if(!this.sendNotifications) {
+            Toast.makeText(this, "Could not set alarm, change settings to do so.", Toast.LENGTH_SHORT).show();
+        }
+        Intent intent = new Intent(MainActivity.this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        long temp = task.getTaskDueTime() - this.minutesBeforeDueTimeAlarm * 60L;
+        System.out.println(task.getTaskDueTime() + ": " + temp);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, temp, pendingIntent);
     }
 
     public List<Task> getAllTasks() {

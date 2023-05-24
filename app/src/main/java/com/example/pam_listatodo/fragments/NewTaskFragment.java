@@ -196,7 +196,7 @@ public class NewTaskFragment extends Fragment {
             ((MainActivity) requireActivity()).getAllTasks();
 
             if (taskNotifications.getSelectedItem().toString().equals("ON")) {
-                //todo put on notification
+                ((MainActivity) requireActivity()).setAlarm(taskData);
             }
             switchFragment();
         }
