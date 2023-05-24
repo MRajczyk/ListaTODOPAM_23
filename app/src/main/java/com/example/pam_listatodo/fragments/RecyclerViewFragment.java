@@ -23,6 +23,7 @@ import com.example.pam_listatodo.interfaces.IClickListener;
 import com.example.pam_listatodo.models.Status;
 import com.example.pam_listatodo.models.Task;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class RecyclerViewFragment extends Fragment implements IClickListener {
@@ -69,6 +70,14 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
 
         sortButton.setOnClickListener(v -> {
             //todo: sort by most urgent task
+            taskData.sort((t1, t2) -> {
+                if(t1.getTaskStatus() != t2.getTaskStatus()) {
+                    return t1.getTaskStatus().compareTo(t2.getTaskStatus());
+                }
+
+                return t1.getTaskDueTime().compareTo(t2.getTaskDueTime());
+            });
+            adapter.notifyDataSetChanged();
         });
 
         startRecyclerView();
