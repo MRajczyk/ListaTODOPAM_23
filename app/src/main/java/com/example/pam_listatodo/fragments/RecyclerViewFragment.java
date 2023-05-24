@@ -86,7 +86,7 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
     public void onClickItem(int position) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("data", taskData.get(position));
-        Fragment fragment = new MoreDetailsFragment();
+        Fragment fragment = new EditTaskFragment();
         fragment.setArguments(bundle);
         getParentFragmentManager()
                 .beginTransaction()

@@ -82,7 +82,7 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
         values.put(TASK_STATUS, task.getTaskStatus().toString());
         values.put(TASK_NOTIFICATION_ENABLED, task.getNotificationsEnabled());
         values.put(TASK_CATEGORY, task.getTaskCategory().toString());
-        values.put(TASK_ATTACHMENT_URI, task.getAttachmentURI());
+        values.put(TASK_ATTACHMENT_URI, task.getTaskAttachmentURI());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -126,7 +126,7 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
         values.put(TASK_STATUS, task.getTaskStatus().toString());
         values.put(TASK_NOTIFICATION_ENABLED, task.getNotificationsEnabled());
         values.put(TASK_CATEGORY, task.getTaskCategory().toString());
-        values.put(TASK_ATTACHMENT_URI, task.getAttachmentURI());
+        values.put(TASK_ATTACHMENT_URI, task.getTaskAttachmentURI());
 
         System.out.println(task.getId());
 

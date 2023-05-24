@@ -1,11 +1,9 @@
 package com.example.pam_listatodo.adapters;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,7 +54,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             holder.completeTask.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(holder.completeTask.getContext(), R.color.lightgrey)));
             holder.completeTask.setText("Pending");
         }
-        if (tasks.get(position).getAttachmentURI() != null && !tasks.get(position).getAttachmentURI().equals(""))
+        if (tasks.get(position).getTaskAttachmentURI() != null && !tasks.get(position).getTaskAttachmentURI().equals(""))
             holder.taskAttachment.setVisibility(View.VISIBLE);
         else
             holder.taskAttachment.setVisibility(View.GONE);

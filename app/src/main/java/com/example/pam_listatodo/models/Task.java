@@ -113,11 +113,11 @@ public class Task implements Serializable {
         this.taskCategory = taskCategory;
     }
 
-    public String getAttachmentURI() {
+    public String getTaskAttachmentURI() {
         return attachmentURI;
     }
 
-    public void setAttachmentURI(String attachmentURI) {
+    public void setTaskAttachmentURI(String attachmentURI) {
         this.attachmentURI = attachmentURI;
     }
 }

@@ -15,38 +15,14 @@
             android:layout_height="match_parent"
             android:layout_marginTop="5dp">
 
-            <TextView
+            <EditText
                 android:id="@+id/task_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Task title"
+                android:hint="Task title"
                 android:textAlignment="center"
                 android:textSize="24sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/created_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Created date:"
-                android:textAlignment="center"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/created_date_value"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CREATED DATE"
-                android:textAlignment="center"
-                android:textSize="20sp" />
         </TableRow>
 
         <TableRow
@@ -59,16 +35,42 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Due date:"
+                android:text="@string/due_date"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <TextView
+            <EditText
+                android:editable="false"
+                android:focusable="false"
                 android:id="@+id/due_date_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="DUE DATE"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/due_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/due_time"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <EditText
+                android:editable="false"
+                android:focusable="false"
+                android:id="@+id/due_time_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </TableRow>
@@ -83,16 +85,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Task category:"
+                android:text="@string/task_category"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <TextView
+            <Spinner
                 android:id="@+id/task_category_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TASK CATEGORY"
+                android:entries="@array/categoryValues"
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </TableRow>
@@ -107,16 +109,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Task status:"
+                android:text="@string/task_status"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <TextView
+            <Spinner
                 android:id="@+id/task_status_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TASK STATUS"
+                android:entries="@array/statusValues"
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </TableRow>
@@ -127,11 +129,35 @@
             android:layout_marginTop="10dp">
 
             <TextView
+                android:id="@+id/task_notifcation_enabled"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/notifications"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/task_notification_enabled_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/notificationValues"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <EditText
                 android:id="@+id/task_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Task description!!!!!!"
+                android:hint="Task description"
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </TableRow>
@@ -142,19 +168,21 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/deleteAttachment"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center|end"
                 android:layout_marginStart="15dp"
-                app:srcCompat="@drawable/paperclip" />
+                app:srcCompat="@drawable/bin" />
 
-            <TextView
+            <EditText
                 android:id="@+id/task_attachment"
+                android:editable="false"
+                android:focusable="false"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TASK ATTACHMENT"
+                android:hint="TASK ATTACHMENT"
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </TableRow>
@@ -162,7 +190,7 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/EDIT"
+        android:id="@+id/edit"
         android:layout_marginHorizontal="55dp"
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
@@ -170,7 +198,7 @@
         android:text="@string/EDIT" />
 
     <Button
-        android:id="@+id/BACK"
+        android:id="@+id/returnb"
         android:layout_marginHorizontal="55dp"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"

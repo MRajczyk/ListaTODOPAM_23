@@ -56,7 +56,7 @@ public class NewTaskFragment extends Fragment {
     EditText taskAttachment;
     ImageView deleteAttachment;
 
-    Button createTask;
+    Button createTaskButton;
     Button returnButton;
 
     Integer year = 2023;
@@ -86,10 +86,10 @@ public class NewTaskFragment extends Fragment {
         this.taskNotifications = this.view.findViewById(R.id.task_notification_enabled_value);
         this.taskDescription = this.view.findViewById(R.id.task_description);
         this.taskAttachment = this.view.findViewById(R.id.task_attachment);
-        this.createTask = this.view.findViewById(R.id.create);
-        this.returnButton = this.view.findViewById(R.id.returnb);
         this.deleteAttachment = this.view.findViewById(R.id.deleteAttachment);
 
+        this.createTaskButton = this.view.findViewById(R.id.create);
+        this.returnButton = this.view.findViewById(R.id.returnb);
         this.returnButton.setOnClickListener(v -> switchFragment());
 
         Calendar calendar = Calendar.getInstance();
@@ -142,7 +142,7 @@ public class NewTaskFragment extends Fragment {
             taskAttachment.setText("");
         });
 
-        this.createTask.setOnClickListener(v -> createTask(calendar));
+        this.createTaskButton.setOnClickListener(v -> createTask(calendar));
     }
 
     private String getDateString() {
@@ -181,7 +181,6 @@ public class NewTaskFragment extends Fragment {
         if(calendar == null) {
             return;
         }
-        //todo: create task:
         if (validateData()) {
             Task taskData = new Task(taskTitle.getText().toString()
                     , taskDescription.getText().toString()
