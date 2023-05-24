@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -80,18 +81,41 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .commit());
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.mainActivity, new RecyclerViewFragment())
-                .setReorderingAllowed(true)
-                .commit();
+
+        String notificationTaskTitle = "";
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            notificationTaskTitle = extras.getString("task_title");
+            System.out.println(notificationTaskTitle);
+
+            RecyclerViewFragment fragment = new RecyclerViewFragment();
+            Bundle args = new Bundle();
+            args.putString("task_title", notificationTaskTitle);
+            fragment.setArguments(args);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.mainActivity, fragment)
+                    .setReorderingAllowed(true)
+                    .commit();
+        }
+        else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.mainActivity, new RecyclerViewFragment())
+                    .setReorderingAllowed(true)
+                    .commit();
+        }
     }
 
     public void setAlarm(Task task) {
         if(!this.sendNotifications) {
             Toast.makeText(this, "Could not set alarm, change settings to do so.", Toast.LENGTH_SHORT).show();
+            return;
         }
         Intent intent = new Intent(MainActivity.this, NotificationReceiver.class);
+        //intent.setData(Uri.parse("custom://" + task.getTaskTitle()));
+        intent.putExtra("taskName", task.getTaskTitle());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 

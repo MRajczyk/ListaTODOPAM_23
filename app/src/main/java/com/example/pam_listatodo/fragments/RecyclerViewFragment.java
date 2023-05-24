@@ -81,6 +81,16 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
         });
 
         startRecyclerView();
+        Bundle bundle = this.getArguments();
+        String task_title;
+        if(bundle != null) {
+            task_title = bundle.getString("task_title");
+            if(task_title != null) {
+                this.editTextFindTask.setText(task_title);
+                taskData = ((MainActivity)requireActivity()).getTaskByTitle(task_title);
+                startRecyclerView();
+            }
+        }
     }
 
     private void startRecyclerView() {
