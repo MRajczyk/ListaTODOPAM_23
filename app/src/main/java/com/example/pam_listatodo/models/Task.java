@@ -97,6 +97,14 @@ public class Task implements Serializable {
         this.taskStatus = taskStatus;
     }
 
+    public void setTaskStatus(String stringStatus) {
+        if(stringStatus.equals("PENDING")) {
+            this.taskStatus = Status.PENDING;
+        } else {
+            this.taskStatus = Status.COMPLETE;
+        }
+    }
+
     public Boolean getNotificationsEnabled() {
         return notificationsEnabled;
     }
@@ -105,12 +113,39 @@ public class Task implements Serializable {
         this.notificationsEnabled = notificationsEnabled;
     }
 
+    public void setNotificationsEnabled(String stringNotificationsEnabled) {
+        this.notificationsEnabled = stringNotificationsEnabled.equals("ON");
+    }
+
     public Category getTaskCategory() {
         return taskCategory;
     }
 
     public void setTaskCategory(Category taskCategory) {
         this.taskCategory = taskCategory;
+    }
+
+    public void setTaskCategory(String stringCategory) {
+        Category category = Category.NONE;
+        switch(stringCategory) {
+            case "NONE":
+                category = Category.NONE;
+                break;
+            case "CHORES":
+                category = Category.CHORES;
+                break;
+            case "UNIVERSITY":
+                category = Category.UNIVERSITY;
+                break;
+            case "JOB":
+                category = Category.JOB;
+                break;
+            case "OTHER":
+                category = Category.OTHER;
+                break;
+        }
+
+        this.taskCategory = category;
     }
 
     public String getTaskAttachmentURI() {

@@ -89,7 +89,7 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
     }
 
     public List<Task> getAllTasks() {
-        List<Task> contactList = new ArrayList<>();
+        List<Task> taskList = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -108,11 +108,11 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
                         , Category.valueOf(cursor.getString(7))
                         , cursor.getString(8)
                 );
-                contactList.add(task);
+                taskList.add(task);
             } while (cursor.moveToNext());
         }
 
-        return contactList;
+        return taskList;
     }
 
     public int updateTask(Task task) {

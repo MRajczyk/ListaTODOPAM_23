@@ -17,6 +17,7 @@
 
             <EditText
                 android:id="@+id/task_title"
+                android:backgroundTint="@color/light_red"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -41,6 +42,7 @@
 
             <EditText
                 android:editable="false"
+                android:backgroundTint="@color/light_red"
                 android:focusable="false"
                 android:id="@+id/due_date_value"
                 android:layout_width="0dp"
@@ -66,6 +68,7 @@
 
             <EditText
                 android:editable="false"
+                android:backgroundTint="@color/light_red"
                 android:focusable="false"
                 android:id="@+id/due_time_value"
                 android:layout_width="0dp"
@@ -91,6 +94,7 @@
 
             <Spinner
                 android:id="@+id/task_category_value"
+                android:backgroundTint="@color/light_red"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -115,6 +119,7 @@
 
             <Spinner
                 android:id="@+id/task_status_value"
+                android:backgroundTint="@color/light_red"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -139,6 +144,7 @@
 
             <Spinner
                 android:id="@+id/task_notification_enabled_value"
+                android:backgroundTint="@color/light_red"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

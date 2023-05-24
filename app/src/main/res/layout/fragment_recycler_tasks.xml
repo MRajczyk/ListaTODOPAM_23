@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/search"
             android:textAlignment="center"
+            android:backgroundTint="@color/light_red"
             android:textSize="30sp"
             android:layout_weight="5"/>
         <Button

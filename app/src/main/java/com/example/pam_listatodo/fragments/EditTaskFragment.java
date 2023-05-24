@@ -27,6 +27,7 @@ package com.example.pam_listatodo.fragments;
 
         import com.example.pam_listatodo.MainActivity;
         import com.example.pam_listatodo.R;
+        import com.example.pam_listatodo.models.Category;
         import com.example.pam_listatodo.models.Task;
 
         import java.io.File;
@@ -119,13 +120,11 @@ public class EditTaskFragment extends Fragment {
         }
         this.taskStatus.setSelection(idx_status);
         this.taskNotifications = this.view.findViewById(R.id.task_notification_enabled_value);
-        int idx_notification = 0;
+        int idx_notifications = 1;
         if(this.taskData.getNotificationsEnabled()) {
-            idx_notification = 0;
-        } else {
-            idx_notification = 1;
+            idx_notifications = 0;
         }
-        this.taskNotifications.setSelection(idx_notification);
+        this.taskNotifications.setSelection(idx_notifications);
         this.taskDescription = this.view.findViewById(R.id.task_description);
         this.taskDescription.setText(this.taskData.getTaskDescription());
         this.taskAttachment = this.view.findViewById(R.id.task_attachment);
@@ -231,13 +230,12 @@ public class EditTaskFragment extends Fragment {
             this.taskData.setTaskTitle(this.taskTitle.getText().toString());
             this.taskData.setTaskDescription(this.taskDescription.getText().toString());
             this.taskData.setTaskCreationTime(Instant.now().getEpochSecond());
-            this.taskData.setTaskTitle(this.taskTitle.getText().toString());
-            this.taskData.setTaskTitle(this.taskTitle.getText().toString());
-            this.taskData.setTaskTitle(this.taskTitle.getText().toString());
-            this.taskData.setTaskTitle(this.taskTitle.getText().toString());
-            ((MainActivity) requireActivity()).getDb().updateTask(this.taskData);
-            ((MainActivity) requireActivity()).getAllTasks();
-
+            this.taskData.setTaskCategory(this.taskCategory.getSelectedItem().toString());
+            this.taskData.setTaskStatus(this.taskStatus.getSelectedItem().toString());
+            this.taskData.setNotificationsEnabled(this.taskNotifications.getSelectedItem().toString());
+            this.taskData.setTaskDescription(this.taskDescription.getText().toString());
+            this.taskData.setTaskAttachmentURI(this.taskAttachment.getText().toString());
+            System.out.println("Zmieniono: " + ((MainActivity) requireActivity()).getDb().updateTask(this.taskData));
             if (taskNotifications.getSelectedItem().toString().equals("ON")) {
                 //todo put on notification
             }
