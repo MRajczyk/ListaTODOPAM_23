@@ -187,7 +187,7 @@ public class NewTaskFragment extends Fragment {
                     , Instant.now().getEpochSecond()
                     , getUnixTimeFromDate(getDateString() + " " + getTimeString())
                     , Status.PENDING
-                    , taskNotifications.getSelectedItem().toString().equals("ON")
+                    , taskNotifications.getSelectedItem().toString().equals("ON") ? 1 : 0
                     , Category.valueOf(taskCategory.getSelectedItem().toString())
                     , taskAttachment.getText().toString());
 

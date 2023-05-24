@@ -9,11 +9,11 @@ public class Task implements Serializable {
     private Long taskCreationTime;
     private Long taskDueTime;
     private Status taskStatus;
-    private Boolean notificationsEnabled;
+    private Integer notificationsEnabled;
     private Category taskCategory;
     private String attachmentURI;
 
-    public Task(Integer id, String taskTitle, String taskDescription, Long taskCreationTime, Long taskDueTime, Status taskStatus, Boolean notificationsEnabled, Category taskCategory, String attachmentURI) {
+    public Task(Integer id, String taskTitle, String taskDescription, Long taskCreationTime, Long taskDueTime, Status taskStatus, Integer notificationsEnabled, Category taskCategory, String attachmentURI) {
         this.id = id;
         this.taskTitle = taskTitle;
         this.taskDescription = taskDescription;
@@ -25,7 +25,7 @@ public class Task implements Serializable {
         this.attachmentURI = attachmentURI;
     }
 
-    public Task(String taskTitle, String taskDescription, Long taskCreationTime, Long taskDueTime, Status taskStatus, Boolean notificationsEnabled, Category taskCategory, String attachmentURI) {
+    public Task(String taskTitle, String taskDescription, Long taskCreationTime, Long taskDueTime, Status taskStatus, Integer notificationsEnabled, Category taskCategory, String attachmentURI) {
         this.taskTitle = taskTitle;
         this.taskDescription = taskDescription;
         this.taskCreationTime = taskCreationTime;
@@ -105,16 +105,16 @@ public class Task implements Serializable {
         }
     }
 
-    public Boolean getNotificationsEnabled() {
+    public Integer getNotificationsEnabled() {
         return notificationsEnabled;
     }
 
-    public void setNotificationsEnabled(Boolean notificationsEnabled) {
+    public void setNotificationsEnabled(Integer notificationsEnabled) {
         this.notificationsEnabled = notificationsEnabled;
     }
 
     public void setNotificationsEnabled(String stringNotificationsEnabled) {
-        this.notificationsEnabled = stringNotificationsEnabled.equals("ON");
+        this.notificationsEnabled = stringNotificationsEnabled.equals("ON") ? 1 : 0;
     }
 
     public Category getTaskCategory() {

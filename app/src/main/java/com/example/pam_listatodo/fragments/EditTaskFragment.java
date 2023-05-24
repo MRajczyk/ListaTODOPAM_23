@@ -120,9 +120,9 @@ public class EditTaskFragment extends Fragment {
         }
         this.taskStatus.setSelection(idx_status);
         this.taskNotifications = this.view.findViewById(R.id.task_notification_enabled_value);
-        int idx_notifications = 1;
-        if(this.taskData.getNotificationsEnabled()) {
-            idx_notifications = 0;
+        int idx_notifications = 0;
+        if(this.taskData.getNotificationsEnabled() == 0) {
+            idx_notifications = 1;
         }
         this.taskNotifications.setSelection(idx_notifications);
         this.taskDescription = this.view.findViewById(R.id.task_description);
@@ -232,7 +232,7 @@ public class EditTaskFragment extends Fragment {
             this.taskData.setTaskCreationTime(Instant.now().getEpochSecond());
             this.taskData.setTaskCategory(this.taskCategory.getSelectedItem().toString());
             this.taskData.setTaskStatus(this.taskStatus.getSelectedItem().toString());
-            this.taskData.setNotificationsEnabled(this.taskNotifications.getSelectedItem().toString());
+            this.taskData.setNotificationsEnabled(this.taskNotifications.getSelectedItem().toString().equals("ON") ? 1 : 0);
             this.taskData.setTaskDescription(this.taskDescription.getText().toString());
             this.taskData.setTaskAttachmentURI(this.taskAttachment.getText().toString());
             System.out.println("Zmieniono: " + ((MainActivity) requireActivity()).getDb().updateTask(this.taskData));

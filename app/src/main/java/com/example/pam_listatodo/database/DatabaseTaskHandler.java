@@ -58,7 +58,7 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
                 + TASK_CREATION_TIME + " TEXT,"
                 + TASK_DUE_TIME + " TEXT,"
                 + TASK_STATUS + " TEXT,"
-                + TASK_NOTIFICATION_ENABLED + " BOOLEAN,"
+                + TASK_NOTIFICATION_ENABLED + " INTEGER,"
                 + TASK_CATEGORY + " TEXT,"
                 + TASK_ATTACHMENT_URI + " BLOB)";
 
@@ -80,7 +80,7 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
         values.put(TASK_CREATION_TIME, task.getTaskCreationTime().toString());
         values.put(TASK_DUE_TIME, task.getTaskDueTime().toString());
         values.put(TASK_STATUS, task.getTaskStatus().toString());
-        values.put(TASK_NOTIFICATION_ENABLED, task.getNotificationsEnabled());
+        values.put(TASK_NOTIFICATION_ENABLED, task.getNotificationsEnabled().toString());
         values.put(TASK_CATEGORY, task.getTaskCategory().toString());
         values.put(TASK_ATTACHMENT_URI, task.getTaskAttachmentURI());
 
@@ -104,7 +104,7 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
                         , Long.valueOf(cursor.getString(3))
                         , Long.valueOf(cursor.getString(4))
                         , Status.valueOf(cursor.getString(5))
-                        , Boolean.valueOf(cursor.getString(6))
+                        , Integer.valueOf(cursor.getString(6))
                         , Category.valueOf(cursor.getString(7))
                         , cursor.getString(8)
                 );
