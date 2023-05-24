@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public class NewTaskFragment extends Fragment {
@@ -86,7 +87,7 @@ public class NewTaskFragment extends Fragment {
         this.taskNotifications = this.view.findViewById(R.id.task_notification_enabled_value);
         this.taskDescription = this.view.findViewById(R.id.task_description);
         this.taskAttachment = this.view.findViewById(R.id.task_attachment);
-        this.deleteAttachment = this.view.findViewById(R.id.deleteAttachment);
+        this.deleteAttachment = this.view.findViewById(R.id.delete_attachment);
 
         this.createTaskButton = this.view.findViewById(R.id.create);
         this.returnButton = this.view.findViewById(R.id.returnb);
@@ -284,7 +285,8 @@ public class NewTaskFragment extends Fragment {
 
     private long getUnixTimeFromDate(String string_date) {
         long seconds = 0;
-        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:MM");
+        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        f.setTimeZone(TimeZone.getDefault());
         try {
             Date d = f.parse(string_date);
             seconds = d.getTime() / 1000L;

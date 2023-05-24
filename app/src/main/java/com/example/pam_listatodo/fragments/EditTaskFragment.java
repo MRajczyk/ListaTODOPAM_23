@@ -4,11 +4,14 @@ package com.example.pam_listatodo.fragments;
 
         import android.app.DatePickerDialog;
         import android.app.TimePickerDialog;
+        import android.content.ActivityNotFoundException;
         import android.content.ContentResolver;
+        import android.content.Context;
         import android.content.Intent;
         import android.database.Cursor;
         import android.net.Uri;
         import android.os.Bundle;
+        import android.os.Environment;
         import android.provider.MediaStore;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -17,17 +20,18 @@ package com.example.pam_listatodo.fragments;
         import android.widget.EditText;
         import android.widget.ImageView;
         import android.widget.Spinner;
+        import android.widget.Toast;
 
         import androidx.activity.result.ActivityResult;
         import androidx.activity.result.ActivityResultLauncher;
         import androidx.activity.result.contract.ActivityResultContracts;
         import androidx.annotation.NonNull;
         import androidx.annotation.Nullable;
+        import androidx.core.content.FileProvider;
         import androidx.fragment.app.Fragment;
 
         import com.example.pam_listatodo.MainActivity;
         import com.example.pam_listatodo.R;
-        import com.example.pam_listatodo.models.Category;
         import com.example.pam_listatodo.models.Task;
 
         import java.io.File;
@@ -38,8 +42,12 @@ package com.example.pam_listatodo.fragments;
         import java.text.ParseException;
         import java.text.SimpleDateFormat;
         import java.time.Instant;
+        import java.time.ZoneId;
+        import java.time.ZonedDateTime;
+        import java.util.Arrays;
         import java.util.Calendar;
         import java.util.Date;
+        import java.util.TimeZone;
         import java.util.UUID;
 
 public class EditTaskFragment extends Fragment {
@@ -54,15 +62,16 @@ public class EditTaskFragment extends Fragment {
     EditText taskDescription;
     EditText taskAttachment;
     ImageView deleteAttachment;
+    ImageView viewAttachment;
 
     Button editButton;
     Button returnButton;
 
-    Integer year = 2023;
-    Integer month = 5;
-    Integer day = 23;
-    Integer hour = 0;
-    Integer minute = 0;
+    Integer year;
+    Integer month;
+    Integer day ;
+    Integer hour;
+    Integer minute;
     private ActivityResultLauncher<Intent> filePickerLauncher;
 
     Task taskData;
@@ -84,10 +93,17 @@ public class EditTaskFragment extends Fragment {
         //todo parse date... and set display in due Date and due Time
         this.taskTitle = this.view.findViewById(R.id.task_title);
         this.taskTitle.setText(this.taskData.getTaskTitle());
+        Instant instant = Instant.ofEpochSecond(this.taskData.getTaskDueTime());
+        ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+        this.year = zdt.getYear();
+        this.month = zdt.getMonth().getValue();
+        this.day = zdt.getDayOfMonth();
+        this.hour = zdt.getHour();
+        this.minute = zdt.getMinute();
         this.dueDate = this.view.findViewById(R.id.due_date_value);
-        this.dueDate.setText(this.taskData.getTaskTitle());
+        this.dueDate.setText(getDateString());
         this.dueTime = this.view.findViewById(R.id.due_time_value);
-        this.dueTime.setText(this.taskData.getTaskTitle());
+        this.dueTime.setText(getTimeString());
         this.taskCategory = this.view.findViewById(R.id.task_category_value);
         int idx_category = 0;
         switch(this.taskData.getTaskCategory()) {
@@ -129,7 +145,8 @@ public class EditTaskFragment extends Fragment {
         this.taskDescription.setText(this.taskData.getTaskDescription());
         this.taskAttachment = this.view.findViewById(R.id.task_attachment);
         this.taskAttachment.setText(this.taskData.getTaskAttachmentURI());
-        this.deleteAttachment = this.view.findViewById(R.id.deleteAttachment);
+        this.deleteAttachment = this.view.findViewById(R.id.delete_attachment);
+        this.viewAttachment = this.view.findViewById(R.id.view_attachment);
 
         this.editButton = this.view.findViewById(R.id.edit);
 
@@ -186,6 +203,10 @@ public class EditTaskFragment extends Fragment {
             taskAttachment.setText("");
         });
 
+        this.viewAttachment.setOnClickListener(v -> {
+            openAttachment();
+        });
+
         this.editButton.setOnClickListener(v -> updateTask(calendar));
     }
 
@@ -225,11 +246,11 @@ public class EditTaskFragment extends Fragment {
         if(calendar == null) {
             return;
         }
-        //todo: create task:
         if (validateData()) {
             this.taskData.setTaskTitle(this.taskTitle.getText().toString());
             this.taskData.setTaskDescription(this.taskDescription.getText().toString());
             this.taskData.setTaskCreationTime(Instant.now().getEpochSecond());
+            this.taskData.setTaskDueTime(getUnixTimeFromDate(getDateString() + " " + getTimeString()));
             this.taskData.setTaskCategory(this.taskCategory.getSelectedItem().toString());
             this.taskData.setTaskStatus(this.taskStatus.getSelectedItem().toString());
             this.taskData.setNotificationsEnabled(this.taskNotifications.getSelectedItem().toString().equals("ON") ? 1 : 0);
@@ -240,6 +261,33 @@ public class EditTaskFragment extends Fragment {
                 //todo put on notification
             }
             switchFragment();
+        }
+    }
+
+    private void openAttachment() {
+        if(this.taskAttachment.getText().toString().equals("")) {
+            Toast.makeText(getActivity(), "Attachment url is empty!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            File attachment = new File(this.taskAttachment.getText().toString());
+//            String dir = this.view.getContext().getExternalFilesDir("attachments").getAbsolutePath();
+//            File destination = new File(dir, Arrays.asList(this.taskAttachment.getText().toString().split("/")).get(Arrays.asList(this.taskAttachment.getText().toString().split("/")).size() - 1) );
+
+            Uri apkURI = FileProvider.getUriForFile(
+                    this.view.getContext(),
+                    this.view.getContext().getApplicationContext()
+                            .getPackageName() + ".provider", attachment);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(apkURI, "*/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getActivity(), "Could not open file!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -326,7 +374,8 @@ public class EditTaskFragment extends Fragment {
 
     private long getUnixTimeFromDate(String string_date) {
         long seconds = 0;
-        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:MM");
+        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        f.setTimeZone(TimeZone.getDefault());
         try {
             Date d = f.parse(string_date);
             seconds = d.getTime() / 1000L;
