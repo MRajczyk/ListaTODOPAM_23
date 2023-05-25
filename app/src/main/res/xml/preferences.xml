@@ -13,7 +13,7 @@
             app:entries="@array/minuteValues"
             app:entryValues="@array/minuteValues"
             app:key="minutesToNotification"
-            app:title="Minutes before notification is sent"
+            app:title="Minutes before task due time"
             app:defaultValue="0"
             app:useSimpleSummaryProvider="true" />
     </androidx.preference.PreferenceCategory>
@@ -31,7 +31,7 @@
             app:entries="@array/categoryValues"
             app:entryValues="@array/categoryValues"
             app:key="categoryFilter"
-            app:title="Show category"
+            app:title="Category filter"
             app:defaultValue="NONE"
             app:useSimpleSummaryProvider="true" />
 

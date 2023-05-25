@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,12 +18,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.example.pam_listatodo.MainActivity;
@@ -56,6 +59,7 @@ public class NewTaskFragment extends Fragment {
     EditText taskDescription;
     EditText taskAttachment;
     ImageView deleteAttachment;
+    ImageView viewAttachment;
 
     Button createTaskButton;
     Button returnButton;
@@ -88,6 +92,7 @@ public class NewTaskFragment extends Fragment {
         this.taskDescription = this.view.findViewById(R.id.task_description);
         this.taskAttachment = this.view.findViewById(R.id.task_attachment);
         this.deleteAttachment = this.view.findViewById(R.id.delete_attachment);
+        this.viewAttachment = this.view.findViewById(R.id.view_attachment);
 
         this.createTaskButton = this.view.findViewById(R.id.create);
         this.returnButton = this.view.findViewById(R.id.returnb);
@@ -141,6 +146,10 @@ public class NewTaskFragment extends Fragment {
             File file = new File(dir, taskAttachment.getText().toString());
             file.delete();
             taskAttachment.setText("");
+        });
+
+        this.viewAttachment.setOnClickListener(v -> {
+            openAttachment();
         });
 
         this.createTaskButton.setOnClickListener(v -> createTask(calendar));
@@ -199,6 +208,33 @@ public class NewTaskFragment extends Fragment {
                 ((MainActivity) requireActivity()).scheduleNotification(taskData);
             }
             switchFragment();
+        }
+    }
+
+    private void openAttachment() {
+        if(this.taskAttachment.getText().toString().equals("")) {
+            Toast.makeText(getActivity(), "Attachment url is empty!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            File attachment = new File(this.taskAttachment.getText().toString());
+//            String dir = this.view.getContext().getExternalFilesDir("attachments").getAbsolutePath();
+//            File destination = new File(dir, Arrays.asList(this.taskAttachment.getText().toString().split("/")).get(Arrays.asList(this.taskAttachment.getText().toString().split("/")).size() - 1) );
+
+            Uri apkURI = FileProvider.getUriForFile(
+                    this.view.getContext(),
+                    this.view.getContext().getApplicationContext()
+                            .getPackageName() + ".provider", attachment);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(apkURI, "*/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getActivity(), "Could not open file!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
