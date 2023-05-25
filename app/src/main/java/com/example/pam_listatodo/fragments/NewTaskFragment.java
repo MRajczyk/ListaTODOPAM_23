@@ -196,7 +196,7 @@ public class NewTaskFragment extends Fragment {
             ((MainActivity) requireActivity()).getAllTasks();
 
             if (taskNotifications.getSelectedItem().toString().equals("ON")) {
-                ((MainActivity) requireActivity()).setAlarm(taskData);
+                ((MainActivity) requireActivity()).scheduleNotification(taskData);
             }
             switchFragment();
         }

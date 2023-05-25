@@ -6,12 +6,10 @@ package com.example.pam_listatodo.fragments;
         import android.app.TimePickerDialog;
         import android.content.ActivityNotFoundException;
         import android.content.ContentResolver;
-        import android.content.Context;
         import android.content.Intent;
         import android.database.Cursor;
         import android.net.Uri;
         import android.os.Bundle;
-        import android.os.Environment;
         import android.provider.MediaStore;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -20,6 +18,7 @@ package com.example.pam_listatodo.fragments;
         import android.widget.EditText;
         import android.widget.ImageView;
         import android.widget.Spinner;
+        import android.widget.TextView;
         import android.widget.Toast;
 
         import androidx.activity.result.ActivityResult;
@@ -39,12 +38,13 @@ package com.example.pam_listatodo.fragments;
         import java.io.InputStream;
         import java.io.OutputStream;
         import java.nio.file.Files;
+        import java.text.DateFormat;
         import java.text.ParseException;
         import java.text.SimpleDateFormat;
         import java.time.Instant;
         import java.time.ZoneId;
         import java.time.ZonedDateTime;
-        import java.util.Arrays;
+        import java.time.format.DateTimeFormatter;
         import java.util.Calendar;
         import java.util.Date;
         import java.util.TimeZone;
@@ -56,6 +56,7 @@ public class EditTaskFragment extends Fragment {
     EditText taskTitle;
     EditText dueDate;
     EditText dueTime;
+    TextView creationTime;
     Spinner taskCategory;
     Spinner taskStatus;
     Spinner taskNotifications;
@@ -104,6 +105,11 @@ public class EditTaskFragment extends Fragment {
         this.dueDate.setText(getDateString());
         this.dueTime = this.view.findViewById(R.id.due_time_value);
         this.dueTime.setText(getTimeString());
+        this.creationTime = this.view.findViewById(R.id.time_created_value);
+        Instant creationInstant = Instant.ofEpochSecond(this.taskData.getTaskDueTime());
+        ZonedDateTime zdtCreation = creationInstant.atZone(ZoneId.systemDefault());
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        this.creationTime.setText(zdtCreation.format(format));
         this.taskCategory = this.view.findViewById(R.id.task_category_value);
         int idx_category = 0;
         switch(this.taskData.getTaskCategory()) {
@@ -259,7 +265,7 @@ public class EditTaskFragment extends Fragment {
             System.out.println("Zmieniono: " + ((MainActivity) requireActivity()).getDb().updateTask(this.taskData));
 
             if (taskNotifications.getSelectedItem().toString().equals("ON")) {
-                ((MainActivity) requireActivity()).setAlarm(taskData);
+                ((MainActivity) requireActivity()).scheduleNotification(taskData);
             }
             switchFragment();
         }

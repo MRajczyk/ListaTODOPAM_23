@@ -22,6 +22,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Task title"
+                android:inputType="text"
+                android:maxLines="1"
+                android:maxLength="20"
                 android:textAlignment="center"
                 android:textSize="24sp" />
         </TableRow>
@@ -45,6 +48,31 @@
                 android:backgroundTint="@color/light_red"
                 android:focusable="false"
                 android:id="@+id/due_date_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/time_created"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/time_created"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <TextView
+                android:backgroundTint="@color/light_red"
+                android:focusable="false"
+                android:id="@+id/time_created_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -163,6 +191,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:minLines="3"
+                android:lines="3"
+                android:maxLength="100"
                 android:hint="Task description"
                 android:textAlignment="center"
                 android:textSize="20sp" />

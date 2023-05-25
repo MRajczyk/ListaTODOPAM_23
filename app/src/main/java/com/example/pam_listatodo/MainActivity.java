@@ -1,13 +1,11 @@
 package com.example.pam_listatodo;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
-import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
-import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static android.app.PendingIntent.FLAG_MUTABLE;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void setAlarm(Task task) {
+    public void scheduleNotification(Task task) {
         if(!this.sendNotifications) {
             Toast.makeText(this, "Could not set alarm, change settings to do so.", Toast.LENGTH_SHORT).show();
             return;
@@ -100,10 +98,11 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         long temp = task.getTaskDueTime() - this.minutesBeforeDueTimeAlarm * 60L;
+        System.out.println(temp);
         alarmManager.set(AlarmManager.RTC_WAKEUP, temp * 1000, pendingIntent);
     }
 
-    public void disableAlarm(Task task) {
+    public void cancelNotification(Task task) {
         Intent intent = new Intent(MainActivity.this, NotificationReceiver.class);
         intent.setData(Uri.parse("custom://" + task.getTaskTitle()));
         intent.setAction(String.valueOf(task.getTaskTitle()));

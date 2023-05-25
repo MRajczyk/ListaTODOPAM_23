@@ -23,7 +23,6 @@ import com.example.pam_listatodo.interfaces.IClickListener;
 import com.example.pam_listatodo.models.Status;
 import com.example.pam_listatodo.models.Task;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class RecyclerViewFragment extends Fragment implements IClickListener {
@@ -107,12 +106,17 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
     @Override
     public void onClickButtonFinish(int position) {
         Task updatedTask = new Task(taskData.get(position));
-        updatedTask.setTaskStatus(updatedTask.getTaskStatus() == Status.COMPLETE ? Status.PENDING : Status.COMPLETE);
+        Status taskNewStatus = updatedTask.getTaskStatus() == Status.COMPLETE ? Status.PENDING : Status.COMPLETE;
+        updatedTask.setTaskStatus(taskNewStatus);
         System.out.println(updatedTask.getTaskStatus().toString());
         this.dbHandle.updateTask(updatedTask);
-        taskData.set(position, updatedTask); //po bozemu ale nie dziala bo nie refreshuje filtru :( (moze i dobrze?)
+        taskData.set(position, updatedTask); //nie refreshuje filtru :( (moze i dobrze?, tak)
         adapter.notifyItemChanged(position);
-        ((MainActivity) requireActivity()).disableAlarm(taskData.get(position));
+        if(taskNewStatus.equals(Status.COMPLETE)) {
+            ((MainActivity) requireActivity()).cancelNotification(taskData.get(position));
+        } else {
+            ((MainActivity) requireActivity()).scheduleNotification(taskData.get(position));
+        }
 
         //to nizej dziala, ale czy my chcemy zeby tak to dzialalo?
 //        this.taskData = ((MainActivity) requireActivity()).getAllTasks();
@@ -122,7 +126,7 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
     @Override
     public void onClickButtonDelete(int position) {
         ((MainActivity) requireActivity()).getDb().deleteTask(taskData.get(position));
-        ((MainActivity) requireActivity()).disableAlarm(taskData.get(position));
+        ((MainActivity) requireActivity()).cancelNotification(taskData.get(position));
         taskData.remove(position);
         adapter.notifyItemRemoved(position);
     }

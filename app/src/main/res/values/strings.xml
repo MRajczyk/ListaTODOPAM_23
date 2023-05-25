@@ -12,4 +12,5 @@
     <string name="task_category">Task category:</string>
     <string name="task_status">Task status:</string>
     <string name="notifications">Notifications:</string>
+    <string name="time_created">Creation Time:</string>
 </resources>

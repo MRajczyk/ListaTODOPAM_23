@@ -21,6 +21,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Task title"
+                android:inputType="text"
+                android:maxLines="1"
+                android:maxLength="20"
                 android:textAlignment="center"
                 android:textSize="24sp" />
         </TableRow>
@@ -155,9 +158,12 @@
             <EditText
                 android:id="@+id/task_description"
                 android:layout_width="0dp"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:hint="Task description"
+                android:maxLength="100"
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </TableRow>
@@ -169,8 +175,8 @@
 
             <ImageView
                 android:id="@+id/delete_attachment"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center|end"
                 android:layout_marginStart="15dp"
                 app:srcCompat="@drawable/bin" />
