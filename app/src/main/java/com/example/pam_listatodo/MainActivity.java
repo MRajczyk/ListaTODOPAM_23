@@ -2,6 +2,7 @@ package com.example.pam_listatodo;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
+import static android.app.PendingIntent.FLAG_MUTABLE;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -114,15 +115,24 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Intent intent = new Intent(MainActivity.this, NotificationReceiver.class);
-        //intent.setData(Uri.parse("custom://" + task.getTaskTitle()));
+        intent.setData(Uri.parse("custom://" + task.getTaskTitle()));
+        intent.setAction(String.valueOf(task.getTaskTitle()));
         intent.putExtra("taskName", task.getTaskTitle());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_MUTABLE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         long temp = task.getTaskDueTime() - this.minutesBeforeDueTimeAlarm * 60L;
-        System.out.println(task.getTaskDueTime() + ": " + temp);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, temp * 1000, pendingIntent);
+    }
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, temp, pendingIntent);
+    public void disableAlarm(Task task) {
+        Intent intent = new Intent(MainActivity.this, NotificationReceiver.class);
+        intent.setData(Uri.parse("custom://" + task.getTaskTitle()));
+        intent.setAction(String.valueOf(task.getTaskTitle()));
+        intent.putExtra("taskName", task.getTaskTitle());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_MUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
     }
 
     public List<Task> getAllTasks() {

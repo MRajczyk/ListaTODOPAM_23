@@ -133,6 +133,7 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
     @Override
     public void onClickButtonDelete(int position) {
         ((MainActivity) requireActivity()).getDb().deleteTask(taskData.get(position));
+        ((MainActivity) requireActivity()).disableAlarm(taskData.get(position));
         taskData.remove(position);
         adapter.notifyItemRemoved(position);
     }
