@@ -6,6 +6,8 @@ import static android.app.PendingIntent.FLAG_MUTABLE;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
@@ -35,6 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseTaskHandler db;
     private FloatingActionButton floatingButton;
 
+    private Fragment savedFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE, POST_NOTIFICATIONS}, PackageManager.PERMISSION_GRANTED);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            //Restore the fragment's instance
+            savedFragment = getSupportFragmentManager().getFragment(savedInstanceState, "savedFragment");
+            System.out.println(savedFragment);
+        }
 
         //create notification channel
         NotificationManager myNotificationManager;
@@ -78,11 +89,19 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .commit());
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.mainActivity, new RecyclerViewFragment())
-                .setReorderingAllowed(true)
-                .commit();
+        if(this.savedFragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.mainActivity, this.savedFragment)
+                    .setReorderingAllowed(true)
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.mainActivity, new RecyclerViewFragment())
+                    .setReorderingAllowed(true)
+                    .commit();
+        }
     }
 
     public void scheduleNotification(Task task) {
@@ -168,6 +187,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        FragmentManager fm = getSupportFragmentManager();
+        fm.putFragment(outState, "savedFragment", Objects.requireNonNull(fm.findFragmentById(R.id.mainActivity)));
     }
 }
 
