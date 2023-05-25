@@ -81,16 +81,6 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
         });
 
         startRecyclerView();
-        Bundle bundle = this.getArguments();
-        String task_title;
-        if(bundle != null) {
-            task_title = bundle.getString("task_title");
-            if(task_title != null) {
-                this.editTextFindTask.setText(task_title);
-                taskData = ((MainActivity)requireActivity()).getTaskByTitle(task_title);
-                startRecyclerView();
-            }
-        }
     }
 
     private void startRecyclerView() {
@@ -114,7 +104,6 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
                 .commit();
     }
 
-    //todo: see how it really works xd
     @Override
     public void onClickButtonFinish(int position) {
         Task updatedTask = new Task(taskData.get(position));
@@ -123,13 +112,13 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
         this.dbHandle.updateTask(updatedTask);
         taskData.set(position, updatedTask); //po bozemu ale nie dziala bo nie refreshuje filtru :( (moze i dobrze?)
         adapter.notifyItemChanged(position);
+        ((MainActivity) requireActivity()).disableAlarm(taskData.get(position));
 
         //to nizej dziala, ale czy my chcemy zeby tak to dzialalo?
 //        this.taskData = ((MainActivity) requireActivity()).getAllTasks();
 //        startRecyclerView();
     }
 
-    //todo: lol
     @Override
     public void onClickButtonDelete(int position) {
         ((MainActivity) requireActivity()).getDb().deleteTask(taskData.get(position));

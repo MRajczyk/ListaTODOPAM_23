@@ -26,7 +26,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
-                PendingIntent.FLAG_MUTABLE);
+                PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, "TODO_NOTIFICATIONS")
                 .setSmallIcon(R.drawable.pencil)

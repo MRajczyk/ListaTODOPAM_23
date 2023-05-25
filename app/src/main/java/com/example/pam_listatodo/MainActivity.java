@@ -1,6 +1,7 @@
 package com.example.pam_listatodo;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
+import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static android.app.PendingIntent.FLAG_MUTABLE;
 
@@ -82,31 +83,11 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .commit());
 
-
-        String notificationTaskTitle = "";
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            notificationTaskTitle = extras.getString("task_title");
-            System.out.println(notificationTaskTitle);
-
-            RecyclerViewFragment fragment = new RecyclerViewFragment();
-            Bundle args = new Bundle();
-            args.putString("task_title", notificationTaskTitle);
-            fragment.setArguments(args);
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.mainActivity, fragment)
-                    .setReorderingAllowed(true)
-                    .commit();
-        }
-        else {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.mainActivity, new RecyclerViewFragment())
-                    .setReorderingAllowed(true)
-                    .commit();
-        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainActivity, new RecyclerViewFragment())
+                .setReorderingAllowed(true)
+                .commit();
     }
 
     public void setAlarm(Task task) {
