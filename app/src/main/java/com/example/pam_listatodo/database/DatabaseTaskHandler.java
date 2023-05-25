@@ -1,5 +1,6 @@
 package com.example.pam_listatodo.database;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.pam_listatodo.MainActivity;
 import com.example.pam_listatodo.models.Category;
 import com.example.pam_listatodo.models.Status;
 import com.example.pam_listatodo.models.Task;
@@ -20,6 +22,7 @@ import java.util.List;
 
 public class DatabaseTaskHandler extends SQLiteOpenHelper {
 
+    private MainActivity mainActivity;
     private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "todo.db";
     private static final String TABLE_NAME = "tasks";
@@ -46,8 +49,9 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
         super(context, name, version, openParams);
     }
 
-    public DatabaseTaskHandler(@Nullable Context context) {
+    public DatabaseTaskHandler(@Nullable Context context, MainActivity mainActivity) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -140,6 +144,7 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
             File attachment = new File(task.getTaskAttachmentURI());
             attachment.delete();
         }
+        this.mainActivity.cancelNotification(task);
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, ID + " = ?",

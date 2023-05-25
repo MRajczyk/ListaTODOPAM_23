@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         myNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         myNotificationManager.createNotificationChannel(channel);
 
-        db = new DatabaseTaskHandler(this);
+        db = new DatabaseTaskHandler(this, this);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         this.showDoneTasks = prefs.getBoolean("showCompletedTasks",true);
