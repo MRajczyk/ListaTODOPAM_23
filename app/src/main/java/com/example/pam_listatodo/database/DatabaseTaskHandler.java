@@ -14,6 +14,7 @@ import com.example.pam_listatodo.models.Category;
 import com.example.pam_listatodo.models.Status;
 import com.example.pam_listatodo.models.Task;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +136,11 @@ public class DatabaseTaskHandler extends SQLiteOpenHelper {
     }
 
     public void deleteTask(Task task) {
+        if(task.getTaskAttachmentURI() != null && !task.getTaskAttachmentURI().equals("")) {
+            File attachment = new File(task.getTaskAttachmentURI());
+            attachment.delete();
+        }
+
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, ID + " = ?",
                 new String[]{String.valueOf(task.getId())});
