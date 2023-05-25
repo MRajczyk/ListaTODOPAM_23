@@ -54,11 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+                Manifest.permission.READ_EXTERNAL_STORAGE, POST_NOTIFICATIONS}, PackageManager.PERMISSION_GRANTED);
         setContentView(R.layout.activity_main);
-        if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{POST_NOTIFICATIONS}, 1);
-        }
 
         //create notification channel
         NotificationManager myNotificationManager;
