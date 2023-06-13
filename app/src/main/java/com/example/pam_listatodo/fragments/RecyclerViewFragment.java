@@ -46,10 +46,10 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
 
         this.view = view;
         this.sortButton = view.findViewById(R.id.sortButton);
-        taskData = ((MainActivity)requireActivity()).getAllTasks();
-        editTextFindTask = view.findViewById(R.id.task_filter);
+        this.taskData = ((MainActivity)requireActivity()).getAllTasks();
+        this.editTextFindTask = view.findViewById(R.id.task_filter);
         this.dbHandle = ((MainActivity)requireActivity()).getDb();
-        editTextFindTask.addTextChangedListener(new TextWatcher() {
+        this.editTextFindTask.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 taskData = ((MainActivity)requireActivity()).getTaskByTitle(charSequence.toString());
