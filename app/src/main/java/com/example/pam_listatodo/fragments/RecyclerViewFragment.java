@@ -68,7 +68,6 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
         });
 
         sortButton.setOnClickListener(v -> {
-            //todo: sort by most urgent task
             taskData.sort((t1, t2) -> {
                 if(t1.getTaskStatus() != t2.getTaskStatus()) {
                     return t1.getTaskStatus().compareTo(t2.getTaskStatus());
@@ -110,7 +109,7 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
         updatedTask.setTaskStatus(taskNewStatus);
         System.out.println(updatedTask.getTaskStatus().toString());
         this.dbHandle.updateTask(updatedTask);
-        taskData.set(position, updatedTask); //nie refreshuje filtru :( (moze i dobrze?, tak)
+        taskData.set(position, updatedTask);
         adapter.notifyItemChanged(position);
         if(taskNewStatus.equals(Status.COMPLETE)) {
             ((MainActivity) requireActivity()).cancelNotification(taskData.get(position));

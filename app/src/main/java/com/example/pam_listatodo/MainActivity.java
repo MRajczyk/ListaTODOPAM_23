@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void scheduleNotification(Task task) {
         if(!this.sendNotifications) {
-            Toast.makeText(this, "Could not set alarm, change settings to do so.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Could not set alarm, notifications are turned off in app settings", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(MainActivity.this, NotificationReceiver.class);

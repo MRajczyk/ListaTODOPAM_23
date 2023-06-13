@@ -37,7 +37,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
 
         try {
-            notificationManagerCompat.notify((int) Math.floor(Math.random() * (200 + 1) + 0), notification.build());
+            notificationManagerCompat.notify((int) Math.floor(Math.random() * (1000000)), notification.build());
         }
         catch (SecurityException e) {
             System.out.println("Insufficient permissions");

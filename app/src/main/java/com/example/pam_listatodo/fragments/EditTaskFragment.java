@@ -1,54 +1,54 @@
 package com.example.pam_listatodo.fragments;
 
-        import static android.app.Activity.RESULT_OK;
+import static android.app.Activity.RESULT_OK;
 
-        import android.app.DatePickerDialog;
-        import android.app.TimePickerDialog;
-        import android.content.ActivityNotFoundException;
-        import android.content.ContentResolver;
-        import android.content.Intent;
-        import android.database.Cursor;
-        import android.net.Uri;
-        import android.os.Bundle;
-        import android.provider.MediaStore;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.ImageView;
-        import android.widget.Spinner;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import androidx.activity.result.ActivityResult;
-        import androidx.activity.result.ActivityResultLauncher;
-        import androidx.activity.result.contract.ActivityResultContracts;
-        import androidx.annotation.NonNull;
-        import androidx.annotation.Nullable;
-        import androidx.core.content.FileProvider;
-        import androidx.fragment.app.Fragment;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
-        import com.example.pam_listatodo.MainActivity;
-        import com.example.pam_listatodo.R;
-        import com.example.pam_listatodo.models.Task;
+import com.example.pam_listatodo.MainActivity;
+import com.example.pam_listatodo.R;
+import com.example.pam_listatodo.models.Task;
 
-        import java.io.File;
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.io.OutputStream;
-        import java.nio.file.Files;
-        import java.text.DateFormat;
-        import java.text.ParseException;
-        import java.text.SimpleDateFormat;
-        import java.time.Instant;
-        import java.time.ZoneId;
-        import java.time.ZonedDateTime;
-        import java.time.format.DateTimeFormatter;
-        import java.util.Calendar;
-        import java.util.Date;
-        import java.util.TimeZone;
-        import java.util.UUID;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.UUID;
 
 public class EditTaskFragment extends Fragment {
 
@@ -91,7 +91,6 @@ public class EditTaskFragment extends Fragment {
         ((MainActivity)requireActivity()).getFloatingActionButton().hide();
         this.view = fview;
 
-        //todo parse date... and set display in due Date and due Time
         this.taskTitle = this.view.findViewById(R.id.task_title);
         this.taskTitle.setText(this.taskData.getTaskTitle());
         Instant instant = Instant.ofEpochSecond(this.taskData.getTaskDueTime());
