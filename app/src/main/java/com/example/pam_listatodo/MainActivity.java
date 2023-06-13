@@ -81,13 +81,22 @@ public class MainActivity extends AppCompatActivity {
         this.minutesBeforeDueTimeAlarm = Integer.parseInt(prefs.getString("minutesToNotification", "0"));
         this.sendNotifications = prefs.getBoolean("notifications", true);
 
-        getAllTasks();
+        List<Task> tasks = getAllTasks();
+
+        if(this.sendNotifications) {
+            tasks.forEach(this::scheduleNotification);
+        } else {
+            tasks.forEach(this::cancelNotification);
+        }
+
         floatingButton = findViewById(R.id.floatingActionButton);
         floatingButton.setOnClickListener(view -> getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.mainActivity, new NewTaskFragment())
                 .setReorderingAllowed(true)
                 .commit());
+
+
 
         if(this.savedFragment != null) {
             getSupportFragmentManager()
