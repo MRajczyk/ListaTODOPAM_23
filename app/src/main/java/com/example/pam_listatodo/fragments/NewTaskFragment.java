@@ -306,6 +306,11 @@ public class NewTaskFragment extends Fragment {
             dueTime.setError("Due time is required");
             hasError = true;
         }
+        if(getUnixTimeFromDate(getDateString() + " " + getTimeString()) < Instant.now().getEpochSecond()) {
+            dueTime.setError("Can't select a datetime that has already passed");
+            hasError = true;
+        }
+
         return !hasError;
     }
 
