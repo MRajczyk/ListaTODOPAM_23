@@ -23,7 +23,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         if(intent.getExtras() != null) {
             taskName = (String) intent.getExtras().get("taskName");
             resultIntent.putExtra("task_id", (Integer) intent.getExtras().get("taskId"));
-            System.out.println("podaje do intencji" + (Integer) intent.getExtras().get("taskId"));
         }
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

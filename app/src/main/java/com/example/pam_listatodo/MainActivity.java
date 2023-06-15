@@ -62,12 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Integer task_id_from_notification = intent.getIntExtra("task_id", -1);
-        System.out.println("po wlaczeniu apki task_id:" + task_id_from_notification);
 
         if (savedInstanceState != null) {
             //Restore the fragment's instance
             savedFragment = getSupportFragmentManager().getFragment(savedInstanceState, "savedFragment");
-            System.out.println(savedFragment);
         }
 
         //create notification channel
@@ -140,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         long temp = task.getTaskDueTime() - this.minutesBeforeDueTimeAlarm * 60L;
-        System.out.println(temp);
         alarmManager.set(AlarmManager.RTC_WAKEUP, temp * 1000, pendingIntent);
     }
 
