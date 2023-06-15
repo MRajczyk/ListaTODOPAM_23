@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private String filterCategory;
     private Boolean showDoneTasks;
     private int minutesBeforeDueTimeAlarm;
-    private boolean sendNotifications;
+    public boolean sendNotifications;
     private DatabaseTaskHandler db;
     private FloatingActionButton floatingButton;
 
@@ -84,7 +84,11 @@ public class MainActivity extends AppCompatActivity {
         List<Task> tasks = getAllTasks();
 
         if(this.sendNotifications) {
-            tasks.forEach(this::scheduleNotification);
+            tasks.forEach(task -> {
+                if(task.getNotificationsEnabled() == 1 && task.getTaskStatus() == Status.PENDING) {
+                    this.scheduleNotification(task);
+                }
+            });
         } else {
             tasks.forEach(this::cancelNotification);
         }

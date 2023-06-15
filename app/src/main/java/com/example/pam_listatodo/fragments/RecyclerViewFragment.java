@@ -24,6 +24,7 @@ import com.example.pam_listatodo.models.Status;
 import com.example.pam_listatodo.models.Task;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RecyclerViewFragment extends Fragment implements IClickListener {
 
@@ -114,7 +115,9 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
         if(taskNewStatus.equals(Status.COMPLETE)) {
             ((MainActivity) requireActivity()).cancelNotification(taskData.get(position));
         } else {
-            ((MainActivity) requireActivity()).scheduleNotification(taskData.get(position));
+            if(((MainActivity) requireActivity()).sendNotifications && taskData.get(position).getNotificationsEnabled() == 1) {
+                ((MainActivity) requireActivity()).scheduleNotification(taskData.get(position));
+            }
         }
 
         //to nizej dziala, ale czy my chcemy zeby tak to dzialalo?

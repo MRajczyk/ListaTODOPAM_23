@@ -36,7 +36,6 @@ public class Task implements Serializable {
         this.attachmentURI = attachmentURI;
     }
 
-    //todo: look for cloning?
     public Task(Task task) {
         this.id = task.id;
         this.taskTitle = task.taskTitle;
