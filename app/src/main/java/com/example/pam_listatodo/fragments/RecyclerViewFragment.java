@@ -25,6 +25,7 @@ import com.example.pam_listatodo.models.Task;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class RecyclerViewFragment extends Fragment implements IClickListener {
 
@@ -34,10 +35,15 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
     private List<Task> taskData;
     private TaskRecyclerViewAdapter adapter;
     private DatabaseTaskHandler dbHandle;
+    private Integer openTaskId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(getArguments() != null) {
+            this.openTaskId = getArguments().getInt("task_id");
+            System.out.println("Task ID " + this.openTaskId);
+        }
         return inflater.inflate(R.layout.fragment_recycler_tasks, container, false);
     }
 
@@ -80,6 +86,24 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
         });
 
         startRecyclerView();
+        if(this.openTaskId != null) {
+
+            Optional<Task> optional = taskData.stream()
+                    .filter(x -> this.openTaskId.equals(x.getId()))
+                    .findFirst();
+            if(optional.isPresent()) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("data", optional.get());
+                Fragment fragment = new EditTaskFragment();
+                fragment.setArguments(bundle);
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.mainActivity, fragment)
+                        .setReorderingAllowed(true)
+                        .commit();
+            }
+            this.openTaskId = null;
+        }
     }
 
     private void startRecyclerView() {

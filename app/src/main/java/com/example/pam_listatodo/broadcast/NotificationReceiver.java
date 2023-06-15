@@ -17,20 +17,23 @@ public class NotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         Intent resultIntent = new Intent(context, MainActivity.class);
-        String test = "";
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        String taskName = "";
         if(intent.getExtras() != null) {
-            test = (String) intent.getExtras().get("taskName");
-            resultIntent.putExtra("task_title", test);
+            taskName = (String) intent.getExtras().get("taskName");
+            resultIntent.putExtra("task_id", (Integer) intent.getExtras().get("taskId"));
+            System.out.println("podaje do intencji" + (Integer) intent.getExtras().get("taskId"));
         }
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
-                PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, "TODO_NOTIFICATIONS")
                 .setSmallIcon(R.drawable.pencil)
-                .setContentTitle("Task due!: " + test)
+                .setContentTitle("Task due!: " + taskName)
                 .setContentText("Click to see more")
                 .setContentIntent(resultPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

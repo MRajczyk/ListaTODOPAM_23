@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.READ_EXTERNAL_STORAGE, POST_NOTIFICATIONS}, PackageManager.PERMISSION_GRANTED);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        Integer task_id_from_notification = intent.getIntExtra("task_id", -1);
+        System.out.println("po wlaczeniu apki task_id:" + task_id_from_notification);
+
         if (savedInstanceState != null) {
             //Restore the fragment's instance
             savedFragment = getSupportFragmentManager().getFragment(savedInstanceState, "savedFragment");
@@ -109,9 +113,15 @@ public class MainActivity extends AppCompatActivity {
                     .setReorderingAllowed(true)
                     .commit();
         } else {
+            Bundle bundle = new Bundle();
+            bundle.putInt("task_id", task_id_from_notification);
+            // set Fragmentclass Arguments
+            RecyclerViewFragment rvFrag = new RecyclerViewFragment();
+            rvFrag.setArguments(bundle);
+
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.mainActivity, new RecyclerViewFragment())
+                    .replace(R.id.mainActivity, rvFrag)
                     .setReorderingAllowed(true)
                     .commit();
         }
@@ -124,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
         }
         Intent intent = new Intent(MainActivity.this, NotificationReceiver.class);
         intent.setData(Uri.parse("custom://" + task.getTaskTitle()));
-        intent.setAction(String.valueOf(task.getTaskTitle()));
         intent.putExtra("taskName", task.getTaskTitle());
+        intent.putExtra("taskId", task.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_MUTABLE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -137,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
     public void cancelNotification(Task task) {
         Intent intent = new Intent(MainActivity.this, NotificationReceiver.class);
         intent.setData(Uri.parse("custom://" + task.getTaskTitle()));
-        intent.setAction(String.valueOf(task.getTaskTitle()));
         intent.putExtra("taskName", task.getTaskTitle());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_MUTABLE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
