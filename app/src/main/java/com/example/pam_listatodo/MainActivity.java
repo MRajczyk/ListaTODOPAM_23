@@ -2,6 +2,7 @@ package com.example.pam_listatodo;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static android.app.PendingIntent.FLAG_MUTABLE;
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         intent.setData(Uri.parse("custom://" + task.getTaskTitle()));
         intent.putExtra("taskName", task.getTaskTitle());
         intent.putExtra("taskId", task.getId());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_MUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_MUTABLE | FLAG_UPDATE_CURRENT );
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         long temp = task.getTaskDueTime() - this.minutesBeforeDueTimeAlarm * 60L;
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, NotificationReceiver.class);
         intent.setData(Uri.parse("custom://" + task.getTaskTitle()));
         intent.putExtra("taskName", task.getTaskTitle());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_MUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, FLAG_MUTABLE | FLAG_UPDATE_CURRENT );
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
     }

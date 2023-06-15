@@ -42,7 +42,6 @@ public class RecyclerViewFragment extends Fragment implements IClickListener {
                              Bundle savedInstanceState) {
         if(getArguments() != null) {
             this.openTaskId = getArguments().getInt("task_id");
-            System.out.println("Task ID " + this.openTaskId);
         }
         return inflater.inflate(R.layout.fragment_recycler_tasks, container, false);
     }
